@@ -260,7 +260,7 @@ access to our database. */
 
 data "azurerm_public_ip" "vault-pip" {
   name                = "${azurerm_public_ip.vault-pip.name}"
-  depends_on          = "azurerm_virtual_machine.vault"
+  depends_on          =  azurerm_virtual_machine.vault
   resource_group_name = "${azurerm_virtual_machine.vault.resource_group_name}"
 }
 
