@@ -120,7 +120,7 @@ resource "azurerm_network_interface" "vault-nic" {
   name                      = "${var.prefix}-vault-nic"
   location                  = "${var.location}"
   resource_group_name       = "${azurerm_resource_group.demo_vaut.name}"
-  network_security_group_id = "${azurerm_network_security_group.vault-sg.id}"
+  # network_security_group_id = "${azurerm_network_security_group.vault-sg.id}"
 
   ip_configuration {
     name                          = "${var.prefix}ipconfig"
@@ -142,6 +142,11 @@ resource "azurerm_public_ip" "vault-pip" {
   domain_name_label   = "${var.prefix}"
 }
 
+
+resource "azurerm_network_interface_security_group_association" "vault-demo-as" {
+  network_interface_id      = azurerm_network_interface.vault-nic.id
+  network_security_group_id = azurerm_network_security_group.vault-sg.id
+}
 /* And finally we build our Vault server. This is a standard Ubuntu instance.
 We use the shell provisioner to run a Bash script that configures Vault for 
 the demo environment. Terraform supports several different types of 
