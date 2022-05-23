@@ -32,7 +32,7 @@ the variables.tf file, and you can override the defaults in your
 own terraform.tfvars file. */ 
 
 resource "azurerm_resource_group" "demo_vaut" {
-  name     = "${var.prefix}-workshop"
+  name     = "${var.prefix}_demo"
   location = "${var.location}"
 }
 
