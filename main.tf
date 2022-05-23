@@ -215,28 +215,49 @@ Azure offers managed MySQL database servers and a whole host of other
 resources. Each resource is documented with all the available settings:
 https://www.terraform.io/docs/providers/azurerm/r/mysql_server.html */
 
-resource "azurerm_mysql_server" "mysql" {
-  name                = "${var.prefix}-mysql-server"
-  location            = "${azurerm_resource_group.demo_vaut.location}"
-  resource_group_name = "${azurerm_resource_group.demo_vaut.name}"
-  ssl_enforcement     = "Disabled"
+# resource "azurerm_mysql_server" "mysql" {
+#   name                = "${var.prefix}-mysql-server"
+#   location            = "${azurerm_resource_group.demo_vaut.location}"
+#   resource_group_name = "${azurerm_resource_group.demo_vaut.name}"
+#   ssl_enforcement     = "Disabled"
 
-  sku {
-    name     = "B_Gen5_2"
-    capacity = 2
-    tier     = "Basic"
-    family   = "Gen5"
-  }
+#   sku {
+#     name     = "B_Gen5_2"
+#     capacity = 2
+#     tier     = "Basic"
+#     family   = "Gen5"
+#   }
 
-  storage_profile {
-    storage_mb            = 5120
-    backup_retention_days = 7
-    geo_redundant_backup  = "Disabled"
-  }
+#   storage_profile {
+#     storage_mb            = 5120
+#     backup_retention_days = 7
+#     geo_redundant_backup  = "Disabled"
+#   }
+
+#   administrator_login          = "${var.admin_username}"
+#   administrator_login_password = "${var.admin_password}"
+#   version                      = "5.7"
+# }
+
+resource "azurerm_mysql_server" "example" {
+  name                = "example-mysqlserver"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 
   administrator_login          = "${var.admin_username}"
   administrator_login_password = "${var.admin_password}"
-  version                      = "5.7"
+
+  sku_name   = "B_Gen5_2"
+  storage_mb = 5120
+  version    = "5.7"
+
+  auto_grow_enabled                 = true
+  backup_retention_days             = 7
+  geo_redundant_backup_enabled      = false
+  infrastructure_encryption_enabled = false
+  public_network_access_enabled     = true
+  ssl_enforcement_enabled           = true
+  ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
 
 /* This is a sample database that we'll populate with data from our app.
@@ -260,7 +281,7 @@ access to our database. */
 
 data "azurerm_public_ip" "vault-pip" {
   name                = "${azurerm_public_ip.vault-pip.name}"
-  depends_on          =  azurerm_virtual_machine.vault
+  depends_on          =  [azurerm_virtual_machine.vault]
   resource_group_name = "${azurerm_virtual_machine.vault.resource_group_name}"
 }
 
