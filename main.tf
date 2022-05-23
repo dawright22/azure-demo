@@ -239,7 +239,7 @@ https://www.terraform.io/docs/providers/azurerm/r/mysql_server.html */
 #   version                      = "5.7"
 # }
 
-resource "azurerm_mysql_server" "example" {
+resource "azurerm_mysql_server" "mysql" {
   name                = "example-mysqlserver"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
