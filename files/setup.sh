@@ -4,7 +4,7 @@
 # cd /tmp
 sudo apt-get -y update > /dev/null 2>&1
 sudo apt install -y unzip jq cowsay mysql-client > /dev/null 2>&1
-wget https://releases.hashicorp.com/vault//1.10.3/vault_1.10.3_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/1.10.3/vault_1.10.3_linux_amd64.zip
 sudo unzip vault_1.1.1_linux_amd64.zip -d /usr/local/bin/
 
 # Set Vault up as a systemd service
