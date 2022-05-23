@@ -60,7 +60,7 @@ resource "azurerm_subnet" "subnet" {
   name                 = "${var.prefix}-subnet"
   virtual_network_name = "${azurerm_virtual_network.vnet.name}"
   resource_group_name  = "${azurerm_resource_group.demo_vaut.name}"
-  address_prefix       = "${var.subnet_prefix}"
+  address_prefixes     = [var.subnet_prefix]
 }
 
 /* Now that we have a network, we'll deploy a stand-alone HashiCorp Vault 
@@ -240,9 +240,9 @@ https://www.terraform.io/docs/providers/azurerm/r/mysql_server.html */
 # }
 
 resource "azurerm_mysql_server" "mysql" {
-  name                = "example-mysqlserver"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  name                = "${var.prefix}-mysql-server"
+  location            = "${azurerm_resource_group.demo_vaut.location}"
+  resource_group_name = "${azurerm_resource_group.demo_vaut.name}"
 
   administrator_login          = "${var.admin_username}"
   administrator_login_password = "${var.admin_password}"
