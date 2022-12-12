@@ -263,6 +263,14 @@ resource "azurerm_mysql_server" "mysql" {
   public_network_access_enabled     = true
   ssl_enforcement_enabled           = false
   ssl_minimal_tls_version_enforced  = "TLSEnforcementDisabled"
+  
+  lifecycle {
+    # The EC2 instance will have an encrypted root volume.
+    postcondition {
+      condition     = self.sku_name == "B_Gen5_2"
+      error_message = "The server's root volume is not encrypted."
+    }
+  }
 }
 
 /* This is a sample database that we'll populate with data from our app.
